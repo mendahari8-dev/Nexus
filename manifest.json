@@ -1,0 +1,88 @@
+{
+“name”: “Nexus Pro — AI Crypto Signal Terminal”,
+“short_name”: “NexusPro”,
+“description”: “Professional AI-powered crypto trading signals with SMC analysis”,
+“start_url”: “/”,
+“display”: “standalone”,
+“background_color”: “#0B0F19”,
+“theme_color”: “#00F5A0”,
+“orientation”: “portrait-primary”,
+“scope”: “/”,
+“lang”: “en”,
+“categories”: [“finance”, “utilities”],
+“icons”: [
+{
+“src”: “icon-72.png”,
+“sizes”: “72x72”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-96.png”,
+“sizes”: “96x96”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-128.png”,
+“sizes”: “128x128”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-144.png”,
+“sizes”: “144x144”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-152.png”,
+“sizes”: “152x152”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-192.png”,
+“sizes”: “192x192”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-384.png”,
+“sizes”: “384x384”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+},
+{
+“src”: “icon-512.png”,
+“sizes”: “512x512”,
+“type”: “image/png”,
+“purpose”: “any maskable”
+}
+],
+“shortcuts”: [
+{
+“name”: “Live Signals”,
+“short_name”: “Signals”,
+“description”: “View live trading signals”,
+“url”: “/?page=signals”,
+“icons”: [{ “src”: “icon-96.png”, “sizes”: “96x96” }]
+},
+{
+“name”: “VIP Signals”,
+“short_name”: “VIP”,
+“description”: “View VIP exclusive signals”,
+“url”: “/?page=vip”,
+“icons”: [{ “src”: “icon-96.png”, “sizes”: “96x96” }]
+}
+],
+“screenshots”: [
+{
+“src”: “screenshot1.png”,
+“sizes”: “390x844”,
+“type”: “image/png”,
+“form_factor”: “narrow”,
+“label”: “Live Signals Dashboard”
+}
+]
+}
