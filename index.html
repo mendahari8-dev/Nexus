@@ -31,17 +31,42 @@
 
 </head>
 <body>
+  <!-- Loading screen -->
+  <div id="loading-screen" style="position:fixed;inset:0;background:#0B0F19;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:monospace;">
+    <div style="font-size:48px;margin-bottom:16px;">⚡</div>
+    <div style="color:#00F5A0;font-size:18px;font-weight:700;letter-spacing:2px;margin-bottom:8px;">NEXUSPRO</div>
+    <div style="color:#6B7280;font-size:12px;margin-bottom:24px;">Loading AI Signal Terminal...</div>
+    <div style="width:200px;height:3px;background:#1e2a40;border-radius:2px;overflow:hidden;">
+      <div style="height:100%;background:#00F5A0;border-radius:2px;animation:lp 2.5s ease forwards;"></div>
+    </div>
+    <style>@keyframes lp{0%{width:0%}80%{width:85%}100%{width:95%}} @keyframes notifTimer{0%{width:100%}100%{width:0%}}</style>
+  </div>
+
   <div id="root"></div>
 
-  <!-- React + Babel -->
+  <!-- Error catcher -->
+
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      var ls = document.getElementById('loading-screen');
+      if(ls) ls.innerHTML = '<div style="text-align:center;padding:30px;color:#EF4444;font-family:monospace;"><div style="font-size:40px;margin-bottom:16px;">⚠️</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;">Error Loading App</div><div style="font-size:11px;color:#9CA3AF;max-width:300px;margin:auto;">' + msg + '</div><div style="font-size:10px;color:#6B7280;margin-top:8px;">Line: ' + line + '</div></div>';
+    };
+  </script>
+
+  <!-- React 18 -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 
+  <!-- Babel Standalone - JSX Transpiler -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 
   <script type="text/babel">
+
+
+
     const { useState, useEffect } = React;
 
 const DARK = { bg:"#0B0F19",card:"#111827",inner:"#151C2F",neon:"#00F5A0",blue:"#3B82F6",red:"#EF4444",orange:"#F59E0B",purple:"#8B5CF6",text:"#E5E7EB",soft:"#9CA3AF",dim:"#6B7280",border:"#1e2a40",isDark:true };
@@ -3178,11 +3203,11 @@ function SupportPage({C}){
 // ── SIDEBAR ───────────────────────────────────────────────────────
 // ── BOTTOM TAB BAR (5 main tabs) ─────────────────────────────────
 const BOTTOM_TABS=[
-  {id:"dashboard",icon:"⊞",label:"Home"},
-  {id:"signals",icon:"📡",label:"Signals"},
-  {id:"autobot",icon:"🤖",label:"Bot"},
-  {id:"portfolio",icon:"📈",label:"Portfolio"},
-  {id:"profile",icon:"👤",label:"Profile"},
+  {id:"dashboard",label:"Home",svg:(c)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`},
+  {id:"signals",label:"Signals",svg:(c)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`},
+  {id:"autobot",label:"Bot",svg:(c)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1" fill="${c}"/><circle cx="15" cy="14" r="1" fill="${c}"/><path d="M9 17h6"/><path d="M12 2v2"/></svg>`},
+  {id:"portfolio",label:"Portfolio",svg:(c)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`},
+  {id:"profile",label:"Profile",svg:(c)=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`},
 ];
 
 // ── DRAWER MENU (all pages) ───────────────────────────────────────
@@ -3204,13 +3229,14 @@ function BottomTabBar({active,setActive,unread,C}){
   return(
     <div style={{
       position:"fixed",bottom:0,left:0,right:0,
-      height:64,
-      background:C.isDark?"rgba(11,15,25,0.97)":"rgba(255,255,255,0.97)",
-      borderTop:`1px solid ${C.border}`,
+      height:68,
+      background:C.isDark?"rgba(8,12,22,0.98)":"rgba(255,255,255,0.98)",
+      borderTop:`1px solid ${C.isDark?"#1a2540":"#E2E8F0"}`,
       display:"flex",alignItems:"stretch",
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+      backdropFilter:"blur(24px)",
+      WebkitBackdropFilter:"blur(24px)",
       zIndex:100,
+      boxShadow:C.isDark?"0 -4px 30px rgba(0,0,0,0.4)":"0 -4px 20px rgba(0,0,0,0.08)",
       paddingBottom:"env(safe-area-inset-bottom)"}}>
       {BOTTOM_TABS.map((tab,i)=>{
         const isActive=active===tab.id;
@@ -3219,20 +3245,20 @@ function BottomTabBar({active,setActive,unread,C}){
           <button key={tab.id} onClick={()=>setActive(tab.id)}
             style={{
               flex:1,display:"flex",flexDirection:"column",
-              alignItems:"center",justifyContent:"center",gap:3,
+              alignItems:"center",justifyContent:"center",gap:4,
               background:"transparent",border:"none",
               cursor:"pointer",position:"relative",
-              transition:"all 0.2s",
-              paddingBottom:4}}>
-            
-            {/* Active indicator pill */}
+              transition:"all 0.25s ease",
+              paddingTop:8,paddingBottom:6}}>
+
+            {/* Active indicator pill - top */}
             {isActive&&(
               <div style={{
                 position:"absolute",top:0,left:"50%",
                 transform:"translateX(-50%)",
-                width:32,height:3,borderRadius:"0 0 3px 3px",
+                width:36,height:3,borderRadius:"0 0 4px 4px",
                 background:C.neon,
-                boxShadow:`0 2px 8px ${C.neon}88`}}/>
+                boxShadow:`0 0 12px ${C.neon}99`}}/>
             )}
 
             {/* Icon container */}
@@ -3241,22 +3267,26 @@ function BottomTabBar({active,setActive,unread,C}){
               display:"flex",alignItems:"center",justifyContent:"center",
               background:isActive?`${C.neon}18`:"transparent",
               transition:"all 0.2s",
-              transform:isActive?"scale(1.1)":"scale(1)"}}>
-              <span style={{fontSize:18}}>{tab.icon}</span>
-              {showBadge&&(
-                <div style={{
-                  position:"absolute",top:6,right:"calc(50% - 22px)",
-                  width:8,height:8,borderRadius:"50%",
-                  background:"#EF4444",
-                  border:`2px solid ${C.isDark?"#0B0F19":"#fff"}`}}/>
-              )}
+              transform:isActive?"scale(1.1)":"scale(1)",
+              position:"relative"}}
+              dangerouslySetInnerHTML={{__html:tab.svg(isActive?C.neon:C.dim)}}>
             </div>
+            {showBadge&&(
+              <div style={{
+                position:"absolute",top:6,right:"calc(50% - 10px)",
+                width:8,height:8,borderRadius:"50%",
+                background:"#EF4444",
+                border:`2px solid ${C.isDark?"#0B0F19":"#fff"}`}}/>
+            )}
 
             {/* Label */}
             <span style={{
-              fontSize:9,fontWeight:isActive?800:500,
-              color:isActive?C.neon:C.dim,
-              letterSpacing:0.3,lineHeight:1}}>
+              fontSize:10,fontWeight:isActive?800:500,
+              color:isActive?C.neon:C.isDark?"#4B5563":"#94A3B8",
+              letterSpacing:isActive?0.5:0.2,
+              lineHeight:1,
+              transition:"all 0.25s",
+              textTransform:isActive?"uppercase":"none"}}>
               {tab.label}
             </span>
           </button>
@@ -3385,15 +3415,91 @@ function Sidebar({active,setActive,collapsed,unread,C}){ return null; }
 
 
 function NotifPopup({onClose,onView,C}){
+  const SIGNAL_ALERTS=[
+    {coin:"BTC/USDT",dir:"LONG",conf:87,icon:"₿",color:"#F7931A"},
+    {coin:"ETH/USDT",dir:"LONG",conf:82,icon:"Ξ",color:"#627EEA"},
+    {coin:"SOL/USDT",dir:"SHORT",conf:79,icon:"◎",color:"#9945FF"},
+    {coin:"BNB/USDT",dir:"LONG",conf:84,icon:"⬡",color:"#F3BA2F"},
+    {coin:"XRP/USDT",dir:"SHORT",conf:76,icon:"✕",color:"#00AAE4"},
+  ];
+  const [sig]=useState(()=>SIGNAL_ALERTS[Math.floor(Math.random()*SIGNAL_ALERTS.length)]);
+  const isLong=sig.dir==="LONG";
+  const glow=isLong?C.neon:"#EF4444";
+
+  // Auto hide after 3 seconds
+  useEffect(()=>{
+    const t=setTimeout(()=>onClose(),3000);
+    return()=>clearTimeout(t);
+  },[]);
+
   return(
-    <div style={{position:"fixed",bottom:16,right:16,left:16,background:C.inner,border:`1px solid ${C.neon}44`,borderRadius:16,padding:"13px 16px",display:"flex",alignItems:"center",gap:12,boxShadow:`0 8px 40px ${C.neon}22`,animation:"slideUp 0.4s ease",zIndex:4000}}>
-      <div style={{width:34,height:34,borderRadius:"50%",background:`${C.neon}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>🔔</div>
-      <div style={{flex:1}}>
-        <div style={{color:C.text,fontWeight:700,fontSize:13}}>New Signal+</div>
-        <div style={{color:C.dim,fontSize:11}}>BTC/USDT · LONG · 80% confidence</div>
+    <div style={{
+      position:"fixed",bottom:80,right:12,left:12,
+      background:C.isDark?"#0d1520":"#fff",
+      border:`1px solid ${glow}55`,
+      borderRadius:18,padding:"14px 16px",
+      display:"flex",alignItems:"center",gap:12,
+      boxShadow:`0 8px 40px ${glow}33`,
+      animation:"slideUp 0.4s ease",
+      zIndex:4000}}>
+
+      {/* Coin icon */}
+      <div style={{
+        width:42,height:42,borderRadius:14,
+        background:`${sig.color}22`,
+        border:`1px solid ${sig.color}44`,
+        display:"flex",alignItems:"center",justifyContent:"center",
+        fontSize:18,flexShrink:0,color:sig.color,fontWeight:800}}>
+        {sig.icon}
       </div>
-      <button onClick={onView} style={{background:C.neon,color:"#0B0F19",border:"none",borderRadius:8,padding:"7px 14px",fontSize:12,fontWeight:800,cursor:"pointer",flexShrink:0}}>VIEW</button>
-      <button onClick={onClose} style={{background:"none",border:"none",color:C.dim,cursor:"pointer",fontSize:18,flexShrink:0,padding:0}}>×</button>
+
+      {/* Signal info */}
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
+          <span style={{color:C.text,fontWeight:800,fontSize:13}}>{sig.coin}</span>
+          <span style={{
+            background:`${glow}22`,color:glow,
+            fontSize:9,fontWeight:800,padding:"2px 7px",
+            borderRadius:5,letterSpacing:0.5}}>
+            {sig.dir}
+          </span>
+          <span style={{
+            background:"#8B5CF622",color:"#8B5CF6",
+            fontSize:9,fontWeight:700,padding:"2px 7px",
+            borderRadius:5}}>NEW</span>
+        </div>
+        <div style={{color:C.dim,fontSize:11}}>
+          🎯 {sig.conf}% confidence · Just now
+        </div>
+        {/* Timer bar */}
+        <div style={{
+          marginTop:6,height:2,
+          background:C.isDark?"#1e2a40":"#E2E8F0",
+          borderRadius:1,overflow:"hidden"}}>
+          <div style={{
+            height:"100%",background:glow,
+            borderRadius:1,
+            animation:"notifTimer 3s linear forwards"}}/>
+        </div>
+      </div>
+
+      {/* View button */}
+      <button onClick={onView} style={{
+        background:`linear-gradient(135deg,${glow},${glow}cc)`,
+        color:isLong?"#0B0F19":"#fff",
+        border:"none",borderRadius:10,
+        padding:"8px 14px",fontSize:11,fontWeight:800,
+        cursor:"pointer",flexShrink:0,
+        boxShadow:`0 4px 12px ${glow}44`}}>
+        VIEW →
+      </button>
+
+      {/* Close */}
+      <button onClick={onClose} style={{
+        background:"none",border:"none",
+        color:C.dim,cursor:"pointer",
+        fontSize:18,flexShrink:0,padding:"0 0 0 4px",
+        lineHeight:1}}>×</button>
     </div>
   );
 }
@@ -3412,9 +3518,7 @@ function NexusPro(){
   const [activeNav,setActiveNav]=useState("dashboard");
   const [collapsed,setCollapsed]=useState(true);
   const [drawerOpen,setDrawerOpen]=useState(false);
-  const [devMode,setDevMode]=useState(false);
-  // DevMode overrides plan to premium for testing
-  const effectiveUser=devMode&&user?{...user,plan:"premium"}:user;
+  const effectiveUser=user;
   const [coins,setCoins]=useState(COINS);
   const [showNotif,setShowNotif]=useState(false);
   const [modal,setModal]=useState({type:null,signal:null});
@@ -3434,11 +3538,14 @@ function NexusPro(){
     return()=>clearInterval(t);
   },[]);
 
-  // Show popup after login
+  // Show signal popup: first after 4s, then every 30s
   useEffect(()=>{
     if(step==="app"){
-      const t=setTimeout(()=>setShowNotif(true),4000);
-      return()=>clearTimeout(t);
+      // First popup after 4 seconds
+      const first=setTimeout(()=>setShowNotif(true),4000);
+      // Repeat every 30 seconds
+      const interval=setInterval(()=>setShowNotif(true),30000);
+      return()=>{clearTimeout(first);clearInterval(interval);}
     }
   },[step]);
 
@@ -3530,16 +3637,7 @@ function NexusPro(){
             cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
           {isDark?"☀️":"🌙"}
         </button>
-        <button onClick={()=>setDevMode(d=>!d)}
-          style={{
-            background:devMode?"#8B5CF622":"transparent",
-            border:`1px solid ${devMode?"#8B5CF6":"#374151"}`,
-            color:devMode?"#8B5CF6":"#6B7280",
-            padding:"4px 8px",borderRadius:8,fontSize:9,
-            fontWeight:800,cursor:"pointer",letterSpacing:0.5,
-            whiteSpace:"nowrap"}}>
-          {devMode?"⚡ DEV ON":"DEV"}
-        </button>
+
         <button onClick={openUpgrade}
           style={{background:`${C.neon}20`,border:`1px solid ${C.neon}44`,color:C.neon,
             padding:"5px 10px",borderRadius:8,fontSize:10,fontWeight:800,
@@ -3618,6 +3716,11 @@ function NexusPro(){
 // Mount app
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<NexusPro/>);
+
+
+// Hide loading screen
+var ls = document.getElementById('loading-screen');
+if(ls){ ls.style.transition='opacity 0.4s'; ls.style.opacity='0'; setTimeout(function(){ls.remove();},400); }
 ```
 
   </script>
@@ -3625,13 +3728,13 @@ root.render(<NexusPro/>);
   <!-- PWA Service Worker -->
 
   <script>
-    if("serviceWorker" in navigator){
-      window.addEventListener("load", ()=>{
-        navigator.serviceWorker.register("/sw.js")
-          .then(()=>console.log("✅ SW registered"))
-          .catch(e=>console.log("SW:", e));
-      });
-    }
+    try {
+      if('serviceWorker' in navigator && location.protocol === 'https:'){
+        window.addEventListener('load', function(){
+          navigator.serviceWorker.register('/sw.js').catch(function(){});
+        });
+      }
+    } catch(e){}
   </script>
 
 </body>

@@ -1,4 +1,4 @@
-// ── NEXUS PRO SERVICE WORKER v1.0 ────────────────────────────────
+// ── NEXUS PRO SERVICE WORKER v2.0 - Safari Compatible ───────────
 const CACHE_NAME = ‘nexuspro-v1’;
 const STATIC_CACHE = ‘nexuspro-static-v1’;
 
