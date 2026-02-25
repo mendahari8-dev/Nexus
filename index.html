@@ -61,7 +61,7 @@
 
   <!-- Babel Standalone - JSX Transpiler -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" crossorigin="anonymous" onerror="document.write('<script src=\'https://unpkg.com/@babel/standalone@7.23.2/babel.min.js\'><\/script>')"></script>
 
   <script type="text/babel">
 
@@ -3202,44 +3202,12 @@ function SupportPage({C}){
 
 // ── SIDEBAR ───────────────────────────────────────────────────────
 // ── BOTTOM TAB BAR (5 main tabs) ─────────────────────────────────
-const TAB_ICONS={
-  dashboard:(c,a)=>(
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="1"/>
-      <rect x="14" y="3" width="7" height="7" rx="1"/>
-      <rect x="3" y="14" width="7" height="7" rx="1"/>
-      <rect x="14" y="14" width="7" height="7" rx="1"/>
-    </svg>
-  ),
-  signals:(c,a)=>(
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-    </svg>
-  ),
-  autobot:(c,a)=>(
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="8" width="16" height="12" rx="2"/>
-      <path d="M8 8V6a4 4 0 0 1 8 0v2"/>
-      <circle cx="9" cy="14" r="1.5" fill={c} stroke="none"/>
-      <circle cx="15" cy="14" r="1.5" fill={c} stroke="none"/>
-      <line x1="9" y1="18" x2="15" y2="18"/>
-    </svg>
-  ),
-  portfolio:(c,a)=>(
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10"/>
-      <line x1="12" y1="20" x2="12" y2="4"/>
-      <line x1="6" y1="20" x2="6" y2="14"/>
-      <line x1="2" y1="20" x2="22" y2="20"/>
-    </svg>
-  ),
-  profile:(c,a)=>(
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-  ),
-};
+function IconHome({c}){return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>;}
+function IconSignals({c}){return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>;}
+function IconBot({c}){return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/><circle cx="9" cy="14" r="1.5" fill={c} stroke="none"/><circle cx="15" cy="14" r="1.5" fill={c} stroke="none"/><line x1="9" y1="18" x2="15" y2="18"/></svg>;}
+function IconPortfolio({c}){return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>;}
+function IconProfile({c}){return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;}
+const TAB_ICONS={dashboard:IconHome,signals:IconSignals,autobot:IconBot,portfolio:IconPortfolio,profile:IconProfile};
 const BOTTOM_TABS=[
   {id:"dashboard",label:"Home"},
   {id:"signals",label:"Signals"},
@@ -3306,7 +3274,7 @@ function BottomTabBar({active,setActive,unread,C}){
               background:isActive?`${C.neon}18`:"transparent",
               transition:"all 0.2s",
               transform:isActive?"scale(1.1)":"scale(1)"}}>
-              {TAB_ICONS[tab.id]?.(isActive?C.neon:C.isDark?"#4B5563":"#94A3B8")}
+              {TAB_ICONS[tab.id]&&React.createElement(TAB_ICONS[tab.id],{c:isActive?C.neon:C.isDark?"#4B5563":"#94A3B8"})}
               {showBadge&&(
                 <div style={{
                   position:"absolute",top:6,right:"calc(50% - 22px)",
