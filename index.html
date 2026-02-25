@@ -146,13 +146,28 @@ react-dom/cjs/react-dom-client.production.js:
   *)
   */
 
-var ls=document.getElementById(“ls”);
-if(ls){setTimeout(function(){ls.style.transition=“opacity 0.5s”;ls.style.opacity=“0”;setTimeout(function(){ls.remove();},500);},300);}
 }catch(e){
-var ls=document.getElementById(“ls”);
-if(ls)ls.innerHTML=’<div style="padding:40px;text-align:center;color:#EF4444;font-family:monospace;"><div style="font-size:40px;margin-bottom:16px;">⚠️</div><div style="font-size:14px;font-weight:700;">Error: ‘+e.message+’</div></div>’;
+var el=document.getElementById(“ls”);
+if(el)el.innerHTML=’<div style="padding:40px;text-align:center;color:#EF4444;font-family:monospace;"><div style="font-size:40px;margin-bottom:16px;">⚠️</div><div style="font-size:14px;font-weight:700;">Error: ‘+e.message+’</div></div>’;
 }
 </script>
+
+  <script>
+  // Hide loading screen - runs AFTER bundle, guaranteed
+  (function(){
+    function hideSplash(){
+      var ls=document.getElementById("ls");
+      if(!ls)return;
+      ls.style.transition="opacity 0.5s";
+      ls.style.opacity="0";
+      setTimeout(function(){if(ls.parentNode)ls.parentNode.removeChild(ls);},500);
+    }
+    // Try immediately after 500ms
+    setTimeout(hideSplash, 500);
+    // Fallback at 3 seconds no matter what
+    setTimeout(hideSplash, 3000);
+  })();
+  </script>
 
   <script>try{if("serviceWorker"in navigator&&location.protocol==="https:"&&location.hostname.indexOf("netlify")>-1){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){});});}}catch(e){}</script>
 
